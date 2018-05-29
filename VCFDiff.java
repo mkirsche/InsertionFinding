@@ -6,7 +6,7 @@ public class VCFDiff {
 	static int setting = DIFF;
 	static boolean filter = true; // Whether or not to take only lines with SVTYPE=INS
 	static int maxDist = 20;
-	static double similarity = 0.9;
+	static double similarity = 0.8;
 public static void main(String[] args) throws IOException
 {
 	String fn1 =args[0];
@@ -71,7 +71,9 @@ static TreeSet<Insertion> diffInsertions(TreeSet<Insertion> sv1, TreeSet<Inserti
 			if(cur.similar(ceil))
 			{
 				found = true;
+				break;
 			}
+			ceil = sv2.higher(ceil);
 		}
 		Insertion floor = sv2.floor(cur);
 		while(!found && floor != null && cur.chr.equals(floor.chr) && Math.abs(cur.pos - floor.pos) <= maxDist)
@@ -79,7 +81,9 @@ static TreeSet<Insertion> diffInsertions(TreeSet<Insertion> sv1, TreeSet<Inserti
 			if(cur.similar(floor))
 			{
 				found = true;
+				break;
 			}
+			floor = sv2.lower(floor);
 		}
 		if((!found && setting == DIFF) || (found && setting == INTERSECT)) res.add(cur);
 	}
