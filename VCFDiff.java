@@ -5,14 +5,16 @@ public class VCFDiff {
 	static int DIFF = 0;
 	static int setting = DIFF;
 	static boolean filter = true; // Whether or not to take only lines with SVTYPE=INS
-	static int maxDist = 20;
-	static double similarity = 0.8;
+	static int maxDist = 50;
+	static double similarity = 0.9;
 public static void main(String[] args) throws IOException
 {
 	String fn1 =args[0];
 	String fn2 = args[1];
 	String outFn = args[2];
 	setting = args[3].equals("intersect") ? INTERSECT : DIFF;
+	maxDist = Integer.parseInt(args[4]);
+	similarity = Double.parseDouble(args[5]);
 	diff(fn1, fn2, outFn);
 }
 static void diff(String fn1, String fn2, String outFn) throws IOException
@@ -158,7 +160,7 @@ static class Insertion implements Comparable<Insertion>
 		String[] tokens = line.split("\t");
 		chr = tokens[0];
 		if(chr.startsWith("chr")) chr = chr.substring(3);
-		System.out.println(chr);
+		if(chr.equals("MT")) chr = "M";
 		pos = Integer.parseInt(tokens[1]);
 		seq = getSeq(line);
 	}
