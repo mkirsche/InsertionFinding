@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 import sys
 
 fn = sys.argv[1]
-pr = False
+pr = True
 with open(fn) as f:
     lines = f.readlines()
     xs = []
     ys = []
     for line in lines:
-        xs.append(int(line.split()[0]))
-        ys.append(int(line.split()[1]))
+        xs.append(float(line.split()[0]))
+        ys.append(float(line.split()[1]))
     plt.scatter(xs, ys)
     if not pr:
         plt.title('SV Detection with Unique Kmers')

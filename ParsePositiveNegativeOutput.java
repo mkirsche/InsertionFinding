@@ -62,11 +62,12 @@ public static void main(String[] args) throws IOException
 		int tp = counts[0];
 		int fn = tots[0] - counts[0];
 		int tn = tots[1] - counts[1];
-		int fp = tots[1];
+		int fp = counts[1];
 		double precision = 1.0 * tp / (tp + fp);
 		double recall = 1.0 * tp / (tp + fn);
 		System.out.println("Precision = " + precision);
 		System.out.println("Recall = " + recall);
+		System.out.println("TP/FP/TN/FN = " + tp + " " + fp + " " + tn + " " + fn);
 		System.out.println();
 		out.println(precision+" "+recall);
 	}

@@ -18,11 +18,13 @@ public static void main(String[] args) throws IOException
 	HashMap<String, Integer> freqMap = null;
 	PrintWriter out1 = new PrintWriter(new File(fn1 + ".calls." + t));
 	PrintWriter out2 = new PrintWriter(new File(fn2 + ".calls." + t));
+	PrintWriter featureout = new PrintWriter(new File("features_" + t + ".txt"));
 	Scanner input1 = new Scanner(new FileInputStream(new File(fn1)));
 	Scanner input2 = new Scanner(new FileInputStream(new File(fn2)));
 	Scanner[] inputs = new Scanner[]{input1, input2};
 	PrintWriter[] outs = new PrintWriter[]{out1, out2};
 	int offset = 0;
+	featureout.println("count selfsimilarity externalsimilarity category");
 	for(int p = 0; p<inputs.length; p++)
 	{
 		int tot = 0;
@@ -60,6 +62,7 @@ public static void main(String[] args) throws IOException
 		        freqMap = freqMap(allseqs, seq.length() - n + 1);
 		    }
 		    double external = getExternalUniqueness(freqMap, seq, seq.length() - n + 1);
+		    featureout.println(numSignals + " " + within + " " + external + " " + p);
 		    if(call(signal, numSignals, n, within, external))
 		    {
 		        outs[p].println(seq);
@@ -75,9 +78,9 @@ public static void main(String[] args) throws IOException
 	    System.out.println("Threshold for signal = " + t);
 	    System.out.println("Number of SVs = " + tot);
 	    System.out.println("Number with signal = " + count);
-
 	    outs[p].close();
 	}
+	featureout.close();
 }
 static HashMap<String, Integer> freqMap(ArrayList<String> seqs, int k)
 {
