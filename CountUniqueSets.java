@@ -9,6 +9,7 @@ public class CountUniqueSets {
 	static int[] vals;
 public static void main(String[] args) throws IOException
 {
+    vals = new int[256];
     vals['A'] = 0;
 	vals['C'] = 1;
 	vals['G'] = 2;
