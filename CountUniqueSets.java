@@ -122,8 +122,11 @@ static void processRead(int[][] counts, int[][] counts2, HashMap<Long, ArrayList
 	{
 		for(int x : map.get(hash))
 		{
+		    HashSet<Integer> used = new HashSet<Integer>();
 			counts2[x%counts2.length][x/counts2.length]++;
 			int svIdx = x%counts2.length;
+			if(used.contains(svIdx)) continue;
+			used.add(svIdx);
 			if(last[svIdx] == readIdx)
 			{
 			    freqList[svIdx][lastCount[svIdx]]--;
@@ -147,8 +150,11 @@ static void processRead(int[][] counts, int[][] counts2, HashMap<Long, ArrayList
 		{
 			for(int x : map.get(hash))
 			{
-				counts2[x%counts2.length][x/counts2.length]++;
-				int svIdx = x%counts2.length;
+				HashSet<Integer> used = new HashSet<Integer>();
+			    counts2[x%counts2.length][x/counts2.length]++;
+			    int svIdx = x%counts2.length;
+			    if(used.contains(svIdx)) continue;
+			    used.add(svIdx);
 			    if(last[svIdx] == readIdx)
 			    {
 			        freqList[svIdx][lastCount[svIdx]]--;
