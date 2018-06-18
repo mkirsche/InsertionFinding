@@ -120,9 +120,9 @@ static void processRead(int[][] counts, int[][] counts2, HashMap<Long, ArrayList
 	for(int i = 0; i<k; i++) hash = (hash << 2) + vals[s.charAt(i)];
 	if(map.containsKey(hash))
 	{
+	    HashSet<Integer> used = new HashSet<Integer>();
 		for(int x : map.get(hash))
 		{
-		    HashSet<Integer> used = new HashSet<Integer>();
 			counts2[x%counts2.length][x/counts2.length]++;
 			int svIdx = x%counts2.length;
 			if(used.contains(svIdx)) continue;
@@ -148,9 +148,9 @@ static void processRead(int[][] counts, int[][] counts2, HashMap<Long, ArrayList
 		hash = (hash << 2) + vals[s.charAt(i)];
 		if(map.containsKey(hash))
 		{
+		    HashSet<Integer> used = new HashSet<Integer>();
 			for(int x : map.get(hash))
 			{
-				HashSet<Integer> used = new HashSet<Integer>();
 			    counts2[x%counts2.length][x/counts2.length]++;
 			    int svIdx = x%counts2.length;
 			    if(used.contains(svIdx)) continue;
