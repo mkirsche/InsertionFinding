@@ -133,6 +133,7 @@ static void processRead(int[][] counts, int[][] counts2, HashMap<Long, ArrayList
 			else
 			{
 			    last[svIdx] = readIdx;
+			    lastCount[svIdx] = 0;
 			    lastCount[svIdx]++;
 			    freqList[svIdx][lastCount[svIdx]]++;
 			}
@@ -157,6 +158,7 @@ static void processRead(int[][] counts, int[][] counts2, HashMap<Long, ArrayList
 			    else
 			    {
 			        last[svIdx] = readIdx;
+			        lastCount[svIdx] = 0;
 			        lastCount[svIdx]++;
 			        freqList[svIdx][lastCount[svIdx]]++;
 			    }
