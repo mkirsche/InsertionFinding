@@ -11,11 +11,11 @@ public static void main(String[] args) throws IOException
 {
     vals = new int[256];
     vals['A'] = 0;
-	vals['C'] = 1;
-	vals['G'] = 2;
-	vals['T'] = 3;
-	String fastaFn = args[0];
-	String vcfFn = args[1];
+    vals['C'] = 1;
+    vals['G'] = 2;
+    vals['T'] = 3;
+    String fastaFn = args[0];
+    String vcfFn = args[1];
 	String read1Fn = args[2];
 	String read2Fn = args[3];
 	Scanner vcfInput = new Scanner(new FileInputStream(new File(vcfFn)));
@@ -75,7 +75,7 @@ public static void main(String[] args) throws IOException
 	Arrays.fill(last, -1);
 	int[] lastCount = new int[g.length]; // How many kmers each insertion had with its last read
 	for(int i = 0; i<g.length; i++) counts2[i] = new int[g[i].length];
-	for(int i = 0; i<g.length; i++) freqList[i] = new int[g[i].length + 1];
+	for(int i = 0; i<g.length; i++) freqList[i] = new int[201];
 	int readIdx = 0;
 	while(read1Input.hasNext())
 	{
