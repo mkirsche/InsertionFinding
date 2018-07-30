@@ -62,13 +62,17 @@ public static void main(String[] args) throws IOException
 		if(cur.charAt(0) == '>')
 		{
 			System.err.println("Adding " + name);
+			System.err.println("Length: " + sb.toString().length());
 			process(counts, map, sb.toString());
+			System.err.println("Added " + name);
 			sb = new StringBuilder("");
 			name = cur;
 		}
 		else sb.append(cur);
 	}
+	System.err.println("Length of last contig: " + sb.toString().length());
 	process(counts, map, sb.toString());
+	System.err.println("Adding reads");
 	int[][] freqList = new int[g.length][];
 	int[][] counts2 = new int[g.length][];
 	int[] last = new int[g.length]; // The last read which shared a kmer with each insertion
@@ -79,7 +83,7 @@ public static void main(String[] args) throws IOException
 	int readIdx = 0;
 	while(read1Input.hasNext())
 	{
-	    if(readIdx%100000 == 0) System.out.println(readIdx);
+	    if(readIdx%100000 == 0) System.err.println(readIdx);
 		read1Input.nextLine();
 		String a = read1Input.nextLine();
 		read2Input.nextLine();
@@ -117,6 +121,7 @@ public static void main(String[] args) throws IOException
 }
 static void processRead(int[][] counts, int[][] counts2, HashMap<Long, ArrayList<Integer>> map, String s, int[][] freqList, int[] last, int[] lastCount, int readIdx)
 {
+    if(s.length() < k) return;
     long hash = 0;
 	for(int i = 0; i<k; i++) hash = (hash << 2) + vals[s.charAt(i)];
 	if(map.containsKey(hash))
@@ -128,13 +133,13 @@ static void processRead(int[][] counts, int[][] counts2, HashMap<Long, ArrayList
 			int svIdx = x%counts2.length;
 			if(used.contains(svIdx)) continue;
 			used.add(svIdx);
-			if(last[svIdx] == readIdx)
+			if(last[svIdx] == readIdx && lastCount[svIdx] +  1 < freqList[svIdx].length)
 			{
 			    freqList[svIdx][lastCount[svIdx]]--;
 			    lastCount[svIdx]++;
 			    freqList[svIdx][lastCount[svIdx]]++;
 			}
-			else
+			else if(last[svIdx] != readIdx)
 			{
 			    last[svIdx] = readIdx;
 			    lastCount[svIdx] = 0;
@@ -156,13 +161,13 @@ static void processRead(int[][] counts, int[][] counts2, HashMap<Long, ArrayList
 			    int svIdx = x%counts2.length;
 			    if(used.contains(svIdx)) continue;
 			    used.add(svIdx);
-			    if(last[svIdx] == readIdx)
+			    if(last[svIdx] == readIdx && lastCount[svIdx] +  1 < freqList[svIdx].length)
 			    {
 			        freqList[svIdx][lastCount[svIdx]]--;
 			        lastCount[svIdx]++;
 			        freqList[svIdx][lastCount[svIdx]]++;
 			    }
-			    else
+			    else if(last[svIdx] != readIdx)
 			    {
 			        last[svIdx] = readIdx;
 			        lastCount[svIdx] = 0;
