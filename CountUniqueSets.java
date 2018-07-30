@@ -79,6 +79,7 @@ public static void main(String[] args) throws IOException
 	int readIdx = 0;
 	while(read1Input.hasNext())
 	{
+	    if(readIdx%100000 == 0) System.out.println(readIdx);
 		read1Input.nextLine();
 		String a = read1Input.nextLine();
 		read2Input.nextLine();
