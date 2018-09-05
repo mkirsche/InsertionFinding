@@ -18,6 +18,8 @@ public static void main(String[] args) throws IOException
 	String outFn = args[2];
 	setting = args[3].equals("intersect") ? INTERSECT : DIFF;
 	svType = args[4].equals("insert") ? INSERT : DELETE;
+	maxDist = Integer.parseInt(args[4]);
+	similarity = Double.parseDouble(args[5]);
 	diff(fn1, fn2, outFn);
 }
 static void diff(String fn1, String fn2, String outFn) throws IOException
@@ -76,6 +78,7 @@ static TreeSet<Insertion> diffInsertions(TreeSet<Insertion> sv1, TreeSet<Inserti
 			if(cur.similar(ceil))
 			{
 				found = true;
+				break;
 			}
 			ceil = sv2.higher(ceil);
 		}
@@ -85,6 +88,7 @@ static TreeSet<Insertion> diffInsertions(TreeSet<Insertion> sv1, TreeSet<Inserti
 			if(cur.similar(floor))
 			{
 				found = true;
+				break;
 			}
 			floor = sv2.lower(floor);
 		}
@@ -181,6 +185,7 @@ static class Insertion implements Comparable<Insertion>
 		String[] tokens = line.split("\t");
 		chr = tokens[0];
 		if(chr.startsWith("chr")) chr = chr.substring(3);
+		if(chr.equals("MT")) chr = "M";
 		pos = Integer.parseInt(tokens[1]);
 		seq = getSeq(line);
 		length = getLength(line);

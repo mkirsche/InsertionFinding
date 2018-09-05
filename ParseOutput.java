@@ -1,6 +1,6 @@
 /*
  * Takes in a list of how many times each kmer in a set of insertions
- * occurs in both the references and a set of reads, and outputs for
+ * occurs in both the reference and a set of reads, and outputs for
  * different thresholds t how many insertions have at least one kmer which
  * occurs 0 times in the reference and >= t times in the readset.
  *
