@@ -44,7 +44,6 @@ static void filterVCF(String fn, TreeSet<Insertion> svs, PrintWriter out) throws
 		if(line.length() == 0 || line.charAt(0) == '#') continue;
 		if(filter && !line.contains((svType == DELETE) ? "SVTYPE=DEL" : "SVTYPE=INS")) continue;
 		Insertion cur = new Insertion(line);
-		//System.out.println(cur.chr+" "+cur.pos+" "+cur.seq.length());
 		if(svs.contains(cur)) out.println(line);
 	}
 }
