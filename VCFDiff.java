@@ -18,8 +18,8 @@ public static void main(String[] args) throws IOException
 	String outFn = args[2];
 	setting = args[3].equals("intersect") ? INTERSECT : DIFF;
 	svType = args[4].equals("insert") ? INSERT : DELETE;
-	maxDist = Integer.parseInt(args[4]);
-	similarity = Double.parseDouble(args[5]);
+	maxDist = Integer.parseInt(args[5]);
+	similarity = Double.parseDouble(args[6]);
 	diff(fn1, fn2, outFn);
 }
 static void diff(String fn1, String fn2, String outFn) throws IOException
@@ -44,6 +44,7 @@ static void filterVCF(String fn, TreeSet<Insertion> svs, PrintWriter out) throws
 		if(line.length() == 0 || line.charAt(0) == '#') continue;
 		if(filter && !line.contains((svType == DELETE) ? "SVTYPE=DEL" : "SVTYPE=INS")) continue;
 		Insertion cur = new Insertion(line);
+		//System.out.println(cur.chr+" "+cur.pos+" "+cur.seq.length());
 		if(svs.contains(cur)) out.println(line);
 	}
 }
@@ -92,7 +93,10 @@ static TreeSet<Insertion> diffInsertions(TreeSet<Insertion> sv1, TreeSet<Inserti
 			}
 			floor = sv2.lower(floor);
 		}
-		if((!found && setting == DIFF) || (found && setting == INTERSECT)) res.add(cur);
+		if((!found && setting == DIFF) || (found && setting == INTERSECT))
+	    {   
+	        res.add(cur);
+	    }
 	}
 	return res;
 }
@@ -108,7 +112,8 @@ static TreeSet<Insertion> parseFile(String fn) throws IOException
 	{
 		String line = input.nextLine();
 		if(line.length() == 0 || line.charAt(0) == '#') continue;
-		if(filter && !line.contains("SVTYPE=DEL")) continue;
+		if(filter && svType == DELETE && !line.contains("SVTYPE=DEL")) continue;
+		if(filter && svType == INSERT && !line.contains("SVTYPE=INS")) continue;
 		Insertion cur = new Insertion(line);
 		if(cur.length == 0) continue;
 		res.add(new Insertion(line));
