@@ -115,7 +115,7 @@ static TreeSet<Insertion> parseFile(String fn) throws IOException
 		if(filter && svType == DELETE && !line.contains("SVTYPE=DEL")) continue;
 		if(filter && svType == INSERT && !line.contains("SVTYPE=INS")) continue;
 		Insertion cur = new Insertion(line);
-		if(cur.length == 0) continue;
+		if(cur.seq.length() == 0) continue;
 		res.add(new Insertion(line));
 	}
 	return res;
@@ -133,25 +133,6 @@ static String getSeq(String line)
 	int end = idx;
 	while(end < line.length() && isBasePair(line.charAt(end))) end++;
 	return line.substring(idx, end);
-}
-/*
- * Extracts the sv length of an insertion from its VCF entry
- */
-static int getLength(String line)
-{
-	String pattern = "SVLEN=";
-	int idx = line.indexOf(pattern);
-	if(idx == -1) return 0;
-	line = line.toUpperCase();
-	idx += pattern.length();
-	int end = idx;
-	int length = 0;
-	while(end < line.length() && line.charAt(end) >= '0' && line.charAt(end) <= '9')
-	{
-	    length = length * 10 + (line.charAt(end) - '0');
-	    end++;
-	}
-	return length;
 }
 /*
  * Returns whether or not a character is a base pair
@@ -184,7 +165,7 @@ static class Insertion implements Comparable<Insertion>
 	String chr;
 	int pos;
 	String seq;
-	int length;
+	//int length;
 	Insertion(String line)
 	{
 		String[] tokens = line.split("\t");
@@ -193,7 +174,7 @@ static class Insertion implements Comparable<Insertion>
 		if(chr.equals("MT")) chr = "M";
 		pos = Integer.parseInt(tokens[1]);
 		seq = getSeq(line);
-		length = getLength(line);
+		//length = getLength(line);
 	}
 	public int compareTo(Insertion o)
 	{
@@ -213,8 +194,8 @@ static class Insertion implements Comparable<Insertion>
 		}
 		else
 		{
-		    if(length < lengthThreshold * o.length) return false;
-		    if(o.length < length * lengthThreshold) return false;
+		    if(seq.length() < lengthThreshold * o.seq.length()) return false;
+		    if(o.seq.length() < seq.length() * lengthThreshold) return false;
 		    return true;
 		}
 	}
